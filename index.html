@@ -22,24 +22,29 @@
     pre{
       font-size: 13px;
       padding: 0px;
+      border: 0;
+      background-color: white;
     }
     .pre{
       margin: 0;
-      width: 80%;
+      width: 100%;
       height: 80%;
       position: absolute;
-      left: 10%;
       top:50%;
       transform: translateY(-50%);
       font-family: monospace;
+      overflow: scroll;
+      overflow-x: hidden;
     }
     .code{
       height: 100%;
+
       padding: 0 0px;
       top:0;
       left:0;
-      width: 100%;
+      width: 80%;
       display: block;
+      margin: 0 auto;
     }
     .run{
       width: 70px;
@@ -75,10 +80,9 @@
     }
     .code-div{
       cursor: pointer;
+      position: relative;
     }
     #flowCode{
-      overflow-y: visible;
-      overflow-x: scroll;
     }
     .showdown:before{
       content:" ";
@@ -91,7 +95,7 @@
       display: inline-block;
       border-radius: 6px;
     }
-    .code-div:hover{
+    .p:hover{
       background-color: #cccccc;
     }
     #set-width{
@@ -117,6 +121,12 @@
     }
     #codemirror-pre{
       font-size: inherit;
+      width: 80%;
+      margin:  0 auto;
+      right: 50%;
+      transform: translate(50%,-50%);
+      bottom:50%;
+
     }
     .code-div .hljs{
       padding: 0;
