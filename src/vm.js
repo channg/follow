@@ -15,7 +15,6 @@ export default new Vue({
   },
   methods: {
     test(){
-      console.log('vue')
     },
     run(){
       this.codeEditShow = false
@@ -45,13 +44,32 @@ export default new Vue({
       return backClass
     },
     trans(word) {
+      console.log(word)
       if(typeof word === 'function') {
         let func = ""
         func = word.toString().replace(/;;try\{_flowEval\('[a-z0.9A-Z_$]*?',[a-z0.9A-Z_$]*?,[0-9]+\)\}catch\(_\$_\)\{\};;/g,'');
         return func
+      }else if(typeof word === 'string'){
+        return `'${word}'`
       }
       if(typeof word === 'undefined') {
         return 'undefined'
+      }
+      if(typeof word== 'object'){
+        let objStr = `{\n`
+        for(let params in word) {
+          objStr+=`  ${params}:${word.params}\n`
+        }
+        objStr+=`\n}`
+        if(word.toString() == '[object Arguments]'){
+          let objStr = `{\n`
+          Array.prototype.forEach.call(word, function (item,index) {
+            item = item.toString().replace(/;;try\{_flowEval\('[a-z0.9A-Z_$]*?',[a-z0.9A-Z_$]*?,[0-9]+\)\}catch\(_\$_\)\{\};;/g,'');
+            objStr+=`    ${index} : ${item}\n`
+          })
+          objStr+=`}`
+          return objStr
+        }
       }
       return word
     },

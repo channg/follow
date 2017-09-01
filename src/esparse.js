@@ -2,7 +2,11 @@ var esprima = require('esprima');
 let allPasre = []
 export default function (code) {
   allPasre = []
-  let parse = esprima.parseScript(code,{loc: true});
+  let parse = esprima.parseScript(code,{loc: true}, function (item) {
+    if(item.type=='ExpressionStatement'){
+      beforeExpressionStatement(item)
+    }
+  });
   toParse(parse)
   return allPasre
 }
@@ -61,8 +65,8 @@ function getWords(parse,array) {
       parse.arguments.forEach(function(item){
         getWords(item,array)
       })
-      getWords(parse.callee,array)
     }
+    getWords(parse.callee,array)
   }else if(parse.type === 'MemberExpression') {
     getWords(parse.object,array)
   }else if (parse.type === 'BinaryExpression') {
@@ -139,6 +143,7 @@ function parseProgram(parse) {
 function parseBlockStatement(parse) {
   if(parse.body&&parse.body.length > 0) {
     parse.body.forEach((item)=>{
+
       toParse(item)
     })
   }
@@ -159,10 +164,10 @@ function parseProperty (parse) {
 function setFunctionParams(parse){
   let end = parse.body.loc.start
   end.column += 1
-  let words = []
+  let words = ['arguments']
   if(parse.params&&parse.params.length>0) {
     parse.params.forEach(function(item){
-      getWords(item, words)
+      // getWords(item, words)
     })
   }
   if(words.length>0){
@@ -202,6 +207,7 @@ function parseExpressionStatement(parse){
   if(words.length>0){
     allPasre.push({words,end})
   }
+  // beforeExpressionStatement(parse)
 }
 
 function parseForStatement(parse) {
@@ -271,5 +277,13 @@ function parseNewExpression(parse){
     parse.arguments.forEach(function (item) {
       toParse(item, notAss)
     })
+  }
+}
+
+function beforeExpressionStatement(parse){
+  let end = parse.loc.start
+  let words = ['__enter__']
+  if(words.length>0){
+    allPasre.push({words,end,before:true})
   }
 }

@@ -156,7 +156,7 @@
         </div>
         <ul id="collapase-nav-1">
           <li  class="am-panel panel-none-back" v-for="code in linePopOutherStep" >
-            <span class="am-badge am-badge-secondary am-round" v-text="typeof code.word"></span><span style="margin-left: 10px" v-text="code.name"></span> <pre class="hightlight"><code class="javascript" v-text="trans(code.word)"></code></pre>
+            <span class="am-badge am-badge-secondary am-round" v-text="typeof code.word"></span><span style="margin-left: 10px;font-weight: bold;color: #eeeeee;" v-text="code.name"></span> <pre class="hightlight"><code class="javascript" v-text="trans(code.word)"></code></pre>
           </li>
         </ul>
         <div style="margin-top: 20px;">
@@ -164,7 +164,7 @@
         </div>
         <ul id="collapase-nav-2">
           <li  class="am-panel panel-none-back" v-for="code in linePopBeforeStep" >
-            <span class="am-badge am-badge-secondary am-round" v-text="typeof code.word"></span><span style="margin-left: 10px" v-text="code.name"></span> <pre class="hightlight"><code class="javascript" v-text="trans(code.word)"></code></pre>
+            <span class="am-badge am-badge-secondary am-round" v-text="typeof code.word"></span><span style="margin-left: 10px;font-weight: bold;color: #eeeeee;" v-text="code.name"></span> <pre class="hightlight"><code class="javascript" v-text="trans(code.word)"></code></pre>
           </li>
         </ul>
 
@@ -189,5 +189,9 @@
   </div>
 </section>
 <script src="app.bundle.js"></script>
+<!-- Place this tag where you want the button to render. -->
+<a class="github-button" href="https://github.com/channg/flowjs" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star channg/flowjs on GitHub">Star</a>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

@@ -2,12 +2,13 @@ let joinStr = '_flowEval'
 let codeSplit = []
 let stepData = []
 let stepindex = 0
-import {JSHINT} from 'jshint'
+import $ from 'jquery'
 import esparse from './esparse'
 export default function init(code) {
   initData()
   codeSplit = code.split(/\n|\r|\r\n/)
   let parseMsg = esparse(code)
+
   let checkCodeArray = aopFunc(code.split(/\n|\r|\r\n/),parseMsg)
   run(checkCodeArray,code)
   return oredrBackData(stepData, codeSplit)
@@ -25,7 +26,9 @@ function checkJsKeyWord(array) {
 }
 
 function run(codeLineArray,code) {
+
   let codeStr = codeLineArray.join('\n')
+   window.__enter__ = 'before Expression Statement'
     window.eval(codeStr)
 
 }
@@ -33,7 +36,7 @@ function run(codeLineArray,code) {
 
 
 function joint(words, index) {
-  words = clearString(words).unique()
+  words = words.unique()
   let str = ""
   words.forEach((word)=> {
     let me = `${joinStr}('${word}',${word},${index-1})`
@@ -44,16 +47,36 @@ function joint(words, index) {
 
 
 function _flowEval(name, word, index) {
+  let newWord = {}
+  if(typeof word == 'object'){
+    if(word.toString()=='[object Arguments]'){
+      newWord = word
+    }else{
+      Object.assign(newWord, word)
+    }
+  }else{
+    newWord = word
+  }
+
+
+
   stepindex += 1
-  stepData.push({name, word, index, stepindex})
+  stepData.push({name, word:newWord, index, stepindex})
 }
 window._flowEval = _flowEval
 function aopFunc(codeArray,dataArr){
-  console.log(codeArray)
-  console.log(dataArr)
   dataArr.forEach(function(item){
-    let str = joint(item.words,item.end.line)
-    codeArray[item.end.line - 1] = codeArray[item.end.line - 1].instertByIndex(str,item.end.column)
+    if(item.before){
+    }else{
+      let str = joint(item.words,item.end.line)
+      codeArray[item.end.line - 1] = codeArray[item.end.line - 1].instertByIndex(str,item.end.column)
+    }
+  })
+  dataArr.forEach(function(item){
+    if(item.before){
+      let str = joint(item.words,item.end.line)
+      codeArray[item.end.line - 1] = codeArray[item.end.line - 1].instertByIndex(str,item.end.column)
+    }
   })
   return codeArray
 }
@@ -91,19 +114,12 @@ function initData() {
 }
 
 function clearString(words) {
-  let newWords = []
-  words.forEach((word)=> {
-    if (word.indexOf('"') == 0 || word.indexOf("'") == 0) {
-    } else {
-      newWords.push(word)
-    }
-  })
-  return newWords
+  return words
 }
 
 String.prototype.instertByIndex = function (str, index) {
   if(index>this.length){
-    return ''
+    return this + str
   }
   let before = this.substring(0,index)
   let after = this.substring(index)
