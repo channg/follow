@@ -28,7 +28,6 @@
     "history": "^1.17.0",
     "html-webpack-plugin": "2.x",
     "jquery": "^2.2.3",
-    "jsx-loader": "~0.13.2",
     "open-browser-webpack-plugin": "0.0.1",
     "style-loader": "^0.12.4",
     "url-loader": "~0.5.6",
